@@ -27,15 +27,19 @@ def L(simbolos, repeticao):
         valorMinimo = regraMinimo.valor + (1 if regraMinimo.operador == Operador.Maior else 0)
         valorMaximo = regraMaximo.valor + (1 if regraMaximo.operador == Operador.MenorIgual else 0)
         
-        listaSimbolos[simbolo.letra] = range(valorMinimo, valorMaximo)
-        
-    for i in range(len(listaSimbolos)):
-        print(list(listaSimbolos)[i])
-        
-        
+        for i in range(valorMinimo, valorMaximo):
+            listaSimbolos[simbolo.letra] = set()
+            possibilidade = ""
             
+            for j in range(i):
+                possibilidade += simbolo.letra
+            
+            print(possibilidade)
+            
+            listaSimbolos[simbolo.letra].add(possibilidade)
     
-    
+    print(listaSimbolos)
+        
 simbolos = [
     Simbolo('c', 'j'),
     Simbolo('d', 'k')
