@@ -21,33 +21,48 @@ def L(simbolos, repeticao):
     listaSimbolos = {}
     
     for simbolo in simbolos:
-        regraMinimo = repeticao[simbolo.letra][0]
-        regraMaximo = repeticao[simbolo.letra][1]
+        regraMinimo = repeticao[simbolo.expoente][0]
+        regraMaximo = repeticao[simbolo.expoente][1]
         
         valorMinimo = regraMinimo.valor + (1 if regraMinimo.operador == Operador.Maior else 0)
         valorMaximo = regraMaximo.valor + (1 if regraMaximo.operador == Operador.MenorIgual else 0)
         
+        listaSimbolos[simbolo.letra] = list()
+
         for i in range(valorMinimo, valorMaximo):
-            listaSimbolos[simbolo.letra] = set()
             possibilidade = ""
             
             for j in range(i):
                 possibilidade += simbolo.letra
             
-            print(possibilidade)
-            
-            listaSimbolos[simbolo.letra].add(possibilidade)
+            listaSimbolos[simbolo.letra].append(possibilidade)
     
-    print(listaSimbolos)
-        
+    sequenciaFinal = list()
+
+    for sequencia in listaSimbolos:
+        if(len(sequenciaFinal) == 0): 
+            sequenciaFinal = listaSimbolos[sequencia]
+            continue
+
+        aux = list()
+        for s in sequenciaFinal:
+            for ss in listaSimbolos[sequencia]:
+                aux.append("".join([s, ss]))
+            
+            sequenciaFinal = aux
+
+    print(sequenciaFinal)
+
 simbolos = [
-    Simbolo('c', 'j'),
-    Simbolo('d', 'k')
+    Simbolo('ae', 'i'),
+    Simbolo('b', 'j'),
+    Simbolo('c', 'k'),
 ]
 
 repeticao = {
-    'c': [Regra(Operador.Maior, 1), Regra(Operador.Menor, 4)],
-    'd': [Regra(Operador.Maior, 0), Regra(Operador.Menor, 5)],
+    'i': [Regra(Operador.Maior, 1), Regra(Operador.Menor, 4)],
+    'j': [Regra(Operador.Maior, 0), Regra(Operador.Menor, 5)],
+    'k': [Regra(Operador.MaiorIgual, 2), Regra(Operador.MenorIgual, 6)],
 }
 
 L(simbolos, repeticao)
